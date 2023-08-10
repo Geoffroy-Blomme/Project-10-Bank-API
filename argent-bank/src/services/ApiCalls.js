@@ -1,0 +1,48 @@
+import axios from "axios";
+const BASE_URL = "http://localhost:3001/api/v1";
+
+export const Login = async (email, pwd) => {
+  try {
+    return await axios
+      .post(`${BASE_URL}/user/login`, {
+        email: email,
+        password: pwd,
+      })
+      .then((res) => res.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchProfile = async (token) => {
+  try {
+    return await axios({
+      method: "POST",
+      url: `${BASE_URL}/user/profile`,
+      headers: {
+        Authorization: `Bearer${token}`,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateProfile = async (firstName, lastName, token) => {
+  try {
+    return await axios({
+      method: "PUT",
+      url: `${BASE_URL}/user/profile`,
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        token: token,
+      },
+      headers: {
+        Authorization: `Bearer${token}`,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};

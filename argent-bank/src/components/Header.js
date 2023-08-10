@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import logo from ".././assets/img/argentBankLogo.png";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/SignIn";
+import { useNavigate } from "react-router-dom";
 
 const HeaderNav = styled.nav`
   display: flex;
@@ -38,6 +41,48 @@ const NavLinkLogoImg = styled.img`
 `;
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isSignedIn = useSelector((state) => state.SignIn.isLoggedIn);
+  const userInfo = useSelector((state) => state.SignIn.data.user);
+  const logOutClick = () => {
+    navigate("/Home");
+    dispatch(logout());
+  };
+  let navlinkItem;
+  if (isSignedIn) {
+    console.log(isSignedIn);
+    console.log(userInfo);
+    if (userInfo) {
+      navlinkItem = (
+        <>
+          <div className="nav-link-item-containr">
+            <NavLinkItem to="/User">
+              <i className="fa fa-user-circle"></i>
+              &nbsp;{userInfo.firstName}
+            </NavLinkItem>
+            <NavLinkItem
+              onClick={(e) => {
+                e.preventDefault();
+                logOutClick();
+              }}
+            >
+              <i className="fa fa-sign-out"></i>
+              &nbsp;Sign Out
+            </NavLinkItem>
+          </div>
+        </>
+      );
+    }
+  } else {
+    console.log(isSignedIn);
+    navlinkItem = (
+      <NavLinkItem to="/Sign-in">
+        <i className="fa fa-user-circle"></i>
+        &nbsp;Sign In
+      </NavLinkItem>
+    );
+  }
   return (
     <HeaderNav>
       <NavLinkLogo to="/">
@@ -46,10 +91,7 @@ export default function Header() {
         </NavLinkLogoImgContainer>
         <h1 className="sr-only">Argent Bank</h1>
       </NavLinkLogo>
-      <NavLinkItem to="/Home">
-        <i className="fa fa-user-circle"></i>
-        &nbsp;Sign in
-      </NavLinkItem>
+      {navlinkItem}
     </HeaderNav>
   );
 }

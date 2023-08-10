@@ -1,9 +1,9 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  version: "1.0.0"
+  termsOfService: "http://swagger.io/terms/"
 host: localhost:3001
 basePath: /api/v1
 schemes:
@@ -21,17 +21,17 @@ paths:
           description: Login Payload
           required: true
           schema:
-            $ref: '#/definitions/Login'
+            $ref: "#/definitions/Login"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Login Successfully
           schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
+            $ref: "#/definitions/LoginResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/signup:
     post:
@@ -45,17 +45,17 @@ paths:
           description: Signup Payload
           required: true
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: Signup Successfully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
   /user/profile:
     post:
@@ -73,13 +73,13 @@ paths:
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
     put:
       security:
@@ -98,18 +98,101 @@ paths:
           description: Update user profile attributes
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
+            $ref: "#/definitions/UserProfile"
       produces:
         - application/json
       responses:
-        '200':
+        "200":
           description: User profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/ApiResponse"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
           description: Internal Server Error
+  /user/account:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Account details
+      description: API for fetching a user's account details
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: The number of the account
+          required: true
+          schema:
+            type: object
+            properties:
+              accountNumber:
+                type: string
+
+      produces:
+        - applications/json
+      responses:
+        "200":
+          description: User's account details retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/AccountDetails"
+
+  /user/transaction/{id}:
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Update the category of the transaction
+      description: API for updating the transaction's category
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: Account's transaction payload
+          schema:
+            type: object
+            properties:
+              transaction:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  date:
+                    type: string
+                  description:
+                    type: string
+                  amount:
+                    type: number
+                  balance:
+                    type: number
+                  type:
+                    type: string
+                  selectedCategory:
+                    type: string
+                  notes:
+                    type: array
+                    items:
+                      type: string
+      produces:
+        - applications/json
+      responses:
+        "200":
+          description: Transaction's category successfully updated
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/transactionResponse"
+
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -164,3 +247,81 @@ definitions:
         type: string
       lastName:
         type: string
+
+  AccountDetails:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          categories:
+            type: array
+            items:
+              type: string
+          accountNumber:
+            type: string
+          transactions:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                date:
+                  type: string
+                description:
+                  type: string
+                amount:
+                  type: number
+                balance:
+                  type: number
+                type:
+                  type: string
+                selectedCategory:
+                  type: string
+                notes:
+                  type: array
+                  items:
+                    type: string
+
+  transactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          categories:
+            type: array
+            items:
+              type: string
+          transactions:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                date:
+                  type: string
+                description:
+                  type: string
+                amount:
+                  type: number
+                balance:
+                  type: number
+                type:
+                  type: string
+                selectedCategory:
+                  type: string
+                notes:
+                  type: array
+                  items:
+                    type: string

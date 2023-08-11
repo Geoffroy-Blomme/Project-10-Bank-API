@@ -73,6 +73,7 @@ export default function Header() {
           </div>
         </>
       );
+      console.log(navlinkItem);
     }
   } else {
     console.log(isSignedIn);

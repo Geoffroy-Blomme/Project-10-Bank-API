@@ -7,5 +7,5 @@ import produce from "immer";
 export default configureStore({
   reducer: {
     SignIn: SignInReducer,
-  }, //add reducers here
+  },
 });

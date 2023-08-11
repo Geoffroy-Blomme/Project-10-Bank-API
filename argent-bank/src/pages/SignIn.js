@@ -62,6 +62,7 @@ export function Signin() {
   const [password, setPassword] = useState("");
   const isLoggedIn = useSelector((state) => state.SignIn.isLoggedIn);
   if (isLoggedIn) {
+    console.log("ok");
     navigate("/User");
   }
   const loginAttempt = async () => {

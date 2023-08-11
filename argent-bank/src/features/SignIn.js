@@ -34,7 +34,16 @@ export const SignInSlice = createSlice({
       }
     });
     builder.addCase(loginPost.fulfilled, (state, action) => {
+      console.log(action);
       if (state.loading === "pending") {
+        if (!action.payload) {
+          return {
+            ...state,
+            isLoggedIn: false,
+            loading: "idle",
+            error: "",
+          };
+        }
         return {
           ...state,
           data: action.payload,

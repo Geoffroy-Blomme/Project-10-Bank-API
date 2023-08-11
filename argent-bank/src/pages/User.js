@@ -138,6 +138,8 @@ export default function User() {
   const isSignedIn = useSelector((state) => state.SignIn.isLoggedIn);
   const userInfo = useSelector((state) => state.SignIn.data.user);
   const token = useSelector((state) => state.SignIn.data.body.token);
+  const tmp = useSelector((state) => state);
+  console.log(tmp);
   const [userIsModifyingProfile, setUserIsModifyingProfile] = useState(false);
 
   let firstName = "";

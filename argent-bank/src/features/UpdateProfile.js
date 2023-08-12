@@ -54,6 +54,6 @@ export const UpdateProfileSlice = createSlice({
   },
 });
 
-// const { actions, reducer } = UpdateProfileSlice;
-// export const { logout } = actions;
-// export default reducer;
+const { actions, reducer } = UpdateProfileSlice;
+export const { logout } = actions;
+export default reducer;

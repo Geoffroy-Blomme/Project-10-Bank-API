@@ -153,17 +153,19 @@ export default function User() {
 
   const editNameSaved = async () => {
     console.log(firstNameInput, lastNameInput);
-    await dispatch(
-      updateProfilePut({
-        firstNameInput,
-        lastNameInput,
-        token,
-      })
-    );
-    dispatch(fetchProfilePost(token));
-    setUserIsModifyingProfile(!userIsModifyingProfile);
-    setFirstNameInput("");
-    setLastNameInput("");
+    if (firstNameInput.length > 1 && lastNameInput.length > 1) {
+      await dispatch(
+        updateProfilePut({
+          firstNameInput,
+          lastNameInput,
+          token,
+        })
+      );
+      dispatch(fetchProfilePost(token));
+      setUserIsModifyingProfile(!userIsModifyingProfile);
+      setFirstNameInput("");
+      setLastNameInput("");
+    }
   };
   useEffect(() => {
     console.log(isSignedIn);

@@ -17,43 +17,36 @@ export const UpdateProfileSlice = createSlice({
     loading: "idle",
     errror: null,
   },
-  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      (updateProfilePut.rejected = (state) => {
-        if (state.loading === "pending") {
-          return {
-            ...state,
-            error: "Error occured",
-            loading: "idle",
-          };
-        }
-      })
-    );
-    builder.addCase(
-      (updateProfilePut.pending = (state) => {
-        if (state.loading === "idle") {
-          state.loading = "pending";
-        }
-      })
-    );
-    builder.addCase(
-      (updateProfilePut.fulfilled = (state, action) => {
+    builder.addCase(updateProfilePut.pending, (state, action) => {
+      if (state.loading === "idle") {
+        state.loading = "pending";
+      }
+    });
+    builder.addCase(updateProfilePut.fulfilled, (state, action) => {
+      console.log(action);
+      if (state.loading === "pending") {
         console.log(action.payload);
-
-        if (state.loading === "pending") {
-          console.log(action.payload);
-          return {
-            ...state,
-            data: action.payload.data.body,
-            error: "",
-          };
-        }
-      })
-    );
+        return {
+          ...state,
+          data: action.payload.data.body,
+          error: "",
+        };
+      }
+    });
+    builder.addCase(updateProfilePut.rejected, (state, action) => {
+      if (state.loading === "pending") {
+        return {
+          ...state,
+          loading: "idle",
+          isLoggedIn: false,
+          error: "Error occured",
+        };
+      }
+    });
   },
 });
 
 const { actions, reducer } = UpdateProfileSlice;
-export const { logout } = actions;
+export const {} = actions;
 export default reducer;

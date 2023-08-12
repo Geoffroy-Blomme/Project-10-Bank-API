@@ -23,7 +23,6 @@ export const SignInSlice = createSlice({
   },
   reducers: {
     logout: (state) => {
-      console.log("ok");
       state.isLoggedIn = false;
     },
   },

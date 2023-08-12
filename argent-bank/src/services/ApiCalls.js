@@ -14,6 +14,22 @@ export const Login = async (email, pwd) => {
   }
 };
 
+export const SignUp = async (data) => {
+  const { email, password, firstName, lastName } = data;
+  try {
+    return await axios
+      .post(`${BASE_URL}/user/signup`, {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      })
+      .then((res) => res.data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const fetchProfile = async (token) => {
   try {
     return await axios({
